@@ -1,27 +1,31 @@
 import React from 'react';
-import {Image, View, Text, StyleSheet, Platform} from 'react-native';
-import {lightColor, fontFamily, defaultFontSize, width, darkColor} from "../../constants";
+import {Image, View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
+import {textColor, fontFamily, defaultFontSize, width, darkColor} from "../../constants";
 
-const ImageCard = ({data}) => {
+const ImageCard = ({data, onPress}) => {
     const {h1, container, img, shadow} = styles;
     const {name, image} = data;
+    const imgUrl = `https${image.medium.slice(4)}`;
+    console.log(onPress);
     return (
-        <View style={container}>
-            <View style={shadow}>
-                <Image
-                    style={img}
-                    source={{uri: image}}
-                />
+        <TouchableOpacity onPress={onPress}>
+            <View style={container}>
+                <View style={shadow}>
+                    <Image
+                        style={img}
+                        source={{uri: imgUrl}}
+                    />
+                </View>
+                <Text style={h1}>{name.toUpperCase()}</Text>
             </View>
-            <Text style={h1}>{name.toUpperCase()}</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 
 
 const styles = StyleSheet.create({
     h1: {
-        color: lightColor,
+        color: textColor,
         fontFamily,
         fontSize: defaultFontSize * 1.5,
         textAlign: 'center',
@@ -41,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         width: width / 2.2,
         padding: 10,
-        paddingVertical: 15
+        paddingVertical: 35
     },
     img: {
         width: width / 2.4,

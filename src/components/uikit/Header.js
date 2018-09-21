@@ -1,13 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
-import {lightColor, defaultFontSize, fontFamily, darkColor, secondColor} from "../../constants";
-
+import {View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
+import {lightColor, defaultFontSize, fontFamily, darkColor, secondColor, width} from "../../constants";
+import Icon from 'react-native-vector-icons/FontAwesome';
 // (props)=>{return (... props.key ...)
-const Header = ({title}) => {
-    const {header, headerText} = styles;
+const Header = ({title, onPress, leftIcon, leftButtonColor}) => {
+    const {header, headerText, leftButtonStyle, backButton} = styles;
     return (
         <View style={header}>
-            <Text style={headerText}>{title}</Text>
+            <TouchableOpacity onPress={onPress} style={backButton}>
+                <Icon name={leftIcon}  color={leftButtonColor} style={leftButtonStyle}/>
+            </TouchableOpacity>
+            <Text numberOfLines={1} ellipsizeMode={"tail"} style={headerText}>{title}</Text>
         </View>
     )
 };
@@ -15,8 +18,10 @@ const Header = ({title}) => {
 
 const styles = StyleSheet.create({
     header: {
+        flexDirection: 'row',
         backgroundColor: secondColor,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
         padding: 30,
         position: 'relative',
         shadowColor: darkColor,
@@ -27,7 +32,14 @@ const styles = StyleSheet.create({
     headerText: {
         color: lightColor,
         fontSize: defaultFontSize * 2,
-        fontFamily: fontFamily
+        fontFamily: fontFamily,
+        lineHeight: defaultFontSize * 2,
+    },
+    leftButtonStyle: {
+        fontSize: defaultFontSize * 2
+    },
+    backButton: {
+        marginRight: 15
     }
 });
 

@@ -1,46 +1,39 @@
-import React, {Component} from 'react';
-import {Platform, View} from 'react-native';
-import {Header, ImageCard, Layout} from "./src/components/uikit";
+import React from 'react';
+import {createBottomTabNavigator} from 'react-navigation';
+import stargateScreen from './src/stargateScreen';
+import batmanScreen from './src/batmanScreen';
+import spiderScreen from './src/spiderScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {defaultFontSize, secondColor, height} from "./src/constants";
 
-const platform = Platform.select({
-    ios: 'IOS',
-    android: 'Android',
-});
-
-const url = 'https://raw.githubusercontent.com/react-native-village/react-native-init/master/stargate/stargate.json';
-type Props = {};
-export default class App extends Component<Props> {
-    state = {
-        title: 'Star Gate',
-        data: []
-    };
-
-
-    componentDidMount = async () => {
-        try {
-            const res = await fetch(url);
-            const data = await res.json();
-            this.setState({data});
+export default createBottomTabNavigator(
+    {
+        Stargate: stargateScreen,
+        Batman: batmanScreen,
+        Spiderman: spiderScreen
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            tabBarIcon: ({focused, tintColor}) => {
+                const {routeName} = navigation.state;
+                let iconName;
+                if (routeName === 'Stargate') {
+                    iconName = focused ? 'ios-play' : 'ios-videocam';
+                } else if (routeName === 'Batman') {
+                    iconName = focused ? 'ios-play' : 'ios-videocam';
+                } else if (routeName === 'Spiderman') {
+                    iconName = focused ? 'ios-play' : 'ios-videocam';
+                }
+                return <Ionicons name={iconName} size={defaultFontSize*2} color={tintColor}/>
+            }
+        }),
+        tabBarOptions: {
+            activeTintColor: secondColor,
+            inactiveTintColor: 'gray',
+            labelStyle: { fontSize: defaultFontSize*1.6 },
+            style:{
+                height: height*0.05
+            }
         }
-        catch (e) {
-            throw e;
-        }
-    };
-
-    render() {
-        const {title, data} = this.state;
-        return (
-            <View>
-                <Header title={title}/>
-                <Layout>
-                    {data.map((item) => {
-                        return (
-                            <ImageCard key={item.id} data={item}/>
-                        )
-                    })}
-                </Layout>
-            </View>
-        );
     }
-}
-
+)

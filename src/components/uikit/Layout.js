@@ -2,12 +2,12 @@ import React from 'react';
 
 import {StyleSheet, View, ScrollView} from 'react-native';
 
-import {firstColor} from "../../constants";
+import {firstColor, height} from "../../constants";
 
 const Layout = (props) => {
-    const {content} = styles;
+    const {content, wrapper} = styles;
     return (
-        <ScrollView>
+        <ScrollView style={wrapper}>
             <View style={content}>
                 {props.children}
             </View>
@@ -22,7 +22,11 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexShrink: 2,
         justifyContent: 'space-around',
-        paddingBottom: 50
+        paddingBottom: height * 0.1
+    },
+    wrapper: {
+        backgroundColor: firstColor,
+        minHeight: height
     }
 });
 
