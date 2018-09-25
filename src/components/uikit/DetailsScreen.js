@@ -10,7 +10,6 @@ class DetailsScreen extends PureComponent {
     }
 
     render() {
-        console.log(this.props.navigation);
         const {navigation} = this.props;
         const {name, image, summary} = navigation.state.params.show;
         const data = {image, name};
@@ -20,7 +19,6 @@ class DetailsScreen extends PureComponent {
                 <Header
                     title={name.toUpperCase()}
                     onPress={() => {
-                        console.log(navigation);
                         navigation.goBack();
                     }}
                     leftButtonColor='#fff'

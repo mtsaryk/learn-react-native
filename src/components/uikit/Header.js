@@ -2,15 +2,25 @@ import React from 'react';
 import {View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import {lightColor, defaultFontSize, fontFamily, darkColor, secondColor, width} from "../../constants";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // (props)=>{return (... props.key ...)
-const Header = ({title, onPress, leftIcon, leftButtonColor}) => {
-    const {header, headerText, leftButtonStyle, backButton} = styles;
+const Header = ({
+                    title,
+                    onPress,
+                    onPressSearch,
+                    leftIcon,
+                    rightIcon
+                }) => {
+    const {header, headerText, leftButtonStyle, backButton, rightButtonStyle, searchButton} = styles;
     return (
         <View style={header}>
             <TouchableOpacity onPress={onPress} style={backButton}>
-                <Icon name={leftIcon}  color={leftButtonColor} style={leftButtonStyle}/>
+                <Icon name={leftIcon} style={[leftButtonStyle, {color: lightColor}]}/>
             </TouchableOpacity>
             <Text numberOfLines={1} ellipsizeMode={"tail"} style={headerText}>{title}</Text>
+            <TouchableOpacity onPress={onPressSearch} style={searchButton}>
+                <MaterialCommunityIcons name={rightIcon} style={[rightButtonStyle, {color: lightColor}]}/>
+            </TouchableOpacity>
         </View>
     )
 };
@@ -20,7 +30,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         backgroundColor: secondColor,
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'flex-end',
         padding: 30,
         position: 'relative',
@@ -38,9 +48,12 @@ const styles = StyleSheet.create({
     leftButtonStyle: {
         fontSize: defaultFontSize * 2
     },
+    rightButtonStyle: {
+        fontSize: defaultFontSize * 2
+    },
     backButton: {
-        marginRight: 15
-    }
+    },
+    searchButton: {},
 });
 
 

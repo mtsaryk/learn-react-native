@@ -39,7 +39,7 @@ export default createDrawerNavigator({
         },
     },
     {
-        initialRouteName: 'Spiderman',
+        initialRouteName: 'Batman',
         contentOptions: {
             activeTintColor: secondColor,
             itemsContainerStyle: {

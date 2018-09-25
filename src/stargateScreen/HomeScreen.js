@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, View} from 'react-native';
-import {Header, ImageCard, Layout} from "../components/uikit";
-import {STARGATE_DETAILS} from "../routing";
+import {Header, ImageCard, Layout, SearchBar} from "../components/uikit";
+import {DETAILS} from "../routing";
 
 
 const platform = Platform.select({
@@ -9,50 +9,76 @@ const platform = Platform.select({
     android: 'Android',
 });
 
-const url = 'http://api.tvmaze.com/search/shows?q=stargate';
+const url = 'http://api.tvmaze.com/search/shows?q=';
 type Props = {};
 export default class HomeScreen extends Component<Props> {
     state = {
-        title: 'Star Gate',
-        data: []
+        title: 'Stargate',
+        data: [],
+        visibleSearchBar: false,
+        searchValue: 'Stargate'
     };
 
-
-    componentDidMount = async () => {
+    getData = async (searchValue) => {
         try {
-            const res = await fetch(url);
+            const res = await fetch(url + searchValue);
             const data = await res.json();
-            this.setState({data});
+            this.setState({data, title: searchValue});
         }
         catch (e) {
             throw e;
         }
     };
 
+    componentDidMount = this.getData(this.state.searchValue);
+
     onGoBack(dataFromChildren) {
         console.log('dataFromChildren', dataFromChildren)
     }
 
     render() {
-        const {title, data} = this.state;
+        const {title, data, visibleSearchBar, searchValue} = this.state;
         const {navigation} = this.props;
         return (
             <View>
-                <Header title={title}
+                {visibleSearchBar ?
+                    <SearchBar
+                        rightIcon='magnify'
+                        value={searchValue}
+                        placeholder='search...'
+                        onPress={() => {
+                            this.setState({visibleSearchBar: !visibleSearchBar});
+                            if (this.state.searchValue) {
+                                this.getData(this.state.searchValue);
+                            }
+                        }}
+                        onChangeText={(text) => {
+                            this.setState({searchValue: text});
+                        }}
+                        onBlur={() => {
+                            this.setState({visibleSearchBar: false});
+                        }}
+                    /> :
+                    <Header
+                        title={title}
                         leftIcon={'bars'}
-                        leftButtonColor={'#fff'}
+                        rightIcon={'magnify'}
                         onPress={() => {
                             navigation.openDrawer()
-                        }}/>
+                        }}
+                        onPressSearch={() => {
+                            this.setState({visibleSearchBar: !visibleSearchBar});
+                        }}
+                    />}
+
                 <Layout>
-                    {data.map((item) => {
+                    {data && data.map((item) => {
                         return (
                             <ImageCard
                                 key={item.show.id}
                                 data={item.show}
                                 onPress={() => {
-                                    navigation.navigate(STARGATE_DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
-                                    console.log(navigation)
+                                    navigation.navigate(DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
                                 }}
                             />
                         )

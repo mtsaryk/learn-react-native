@@ -5,8 +5,10 @@ import {textColor, fontFamily, defaultFontSize, width, darkColor} from "../../co
 const ImageCard = ({data, onPress}) => {
     const {h1, container, img, shadow} = styles;
     const {name, image} = data;
-    const imgUrl = `https${image.medium.slice(4)}`;
-    console.log(onPress);
+    let imgUrl = '';
+    if(image && image.medium){
+        imgUrl = `https${image.medium.slice(4)}`;
+    }
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={container}>
