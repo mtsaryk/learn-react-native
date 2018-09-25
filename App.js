@@ -1,11 +1,58 @@
 import React from 'react';
-import {createBottomTabNavigator} from 'react-navigation';
+//import {createBottomTabNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation';
 import stargateScreen from './src/stargateScreen';
 import batmanScreen from './src/batmanScreen';
 import spiderScreen from './src/spiderScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 import {defaultFontSize, secondColor, height} from "./src/constants";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+
+export default createDrawerNavigator({
+        Stargate: {
+            screen: stargateScreen,
+            navigationOptions: {
+                drawerLabel: 'Stargate',
+                drawerIcon: ({tintColor}) => (
+                    <MaterialIcons name="grade" size={defaultFontSize*1.5} style={{color: tintColor}}/>
+                )
+            }
+        },
+        Batman: {
+            screen: batmanScreen,
+            navigationOptions: {
+                drawerLabel: 'Batman',
+                drawerIcon: ({tintColor}) => (
+                    <MaterialIcons name="favorite" size={defaultFontSize*1.5} style={{color: tintColor}}/>
+                )
+            }
+        },
+        Spiderman: {
+            screen: spiderScreen,
+            navigationOptions: {
+                drawerLabel: 'Spiderman',
+                drawerIcon: ({tintColor}) => (
+                    <MaterialIcons name="pets" size={defaultFontSize*1.5} style={{color: tintColor}}/>
+                )
+            }
+        },
+    },
+    {
+        initialRouteName: 'Spiderman',
+        contentOptions: {
+            activeTintColor: secondColor,
+            itemsContainerStyle: {
+                marginVertical: 60,
+            },
+            labelStyle: {
+                fontSize: defaultFontSize*1.5
+            }
+        }
+    }
+)
+
+/*
 export default createBottomTabNavigator(
     {
         Stargate: stargateScreen,
@@ -36,4 +83,4 @@ export default createBottomTabNavigator(
             }
         }
     }
-)
+)*/

@@ -29,20 +29,29 @@ export default class HomeScreen extends Component<Props> {
         }
     };
 
+    onGoBack(dataFromChildren) {
+        console.log('dataFromChildren', dataFromChildren)
+    }
+
     render() {
         const {title, data} = this.state;
         const {navigation} = this.props;
         return (
             <View>
-                <Header title={title}/>
+                <Header title={title}
+                        leftIcon={'bars'}
+                        leftButtonColor={'#fff'}
+                        onPress={() => {
+                            navigation.openDrawer()
+                        }}/>
                 <Layout>
                     {data.map((item) => {
                         return (
                             <ImageCard
                                 key={item.show.id}
                                 data={item.show}
-                                onPress={()=>{
-                                    navigation.navigate(STARGATE_DETAILS, (item.show));
+                                onPress={() => {
+                                    navigation.navigate(STARGATE_DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
                                     console.log(navigation)
                                 }}
                             />
@@ -53,4 +62,3 @@ export default class HomeScreen extends Component<Props> {
         );
     }
 }
-

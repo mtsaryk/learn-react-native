@@ -4,12 +4,17 @@ import {Header, ImageBigCard} from "../components/uikit";
 import {defaultFontSize, firstColor, fontFamily, height, textColor} from "../constants";
 
 class DetailsScreen extends PureComponent {
+    componentWillUnmount() {
+        const {onGoBack} = this.props.navigation.state.params;
+        onGoBack && onGoBack('hello from children')
+    }
+
     render() {
         console.log(this.props.navigation);
         const {navigation} = this.props;
-        const {name, image, summary} = navigation.state.params;
+        const {name, image, summary} = navigation.state.params.show;
         const data = {image, name};
-        const {container, scrollView, nameStyles,summaryStyles } = styles;
+        const {container, scrollView, nameStyles, summaryStyles} = styles;
         return (
             <View style={container}>
                 <Header
@@ -23,7 +28,7 @@ class DetailsScreen extends PureComponent {
                 />
                 <ScrollView style={scrollView}>
                     <ImageBigCard
-                    data={data}
+                        data={data}
                     />
                     <Text style={nameStyles}>{name}</Text>
                     <Text style={summaryStyles}>{summary.replace(/<[^>]+>/g, '')}</Text>

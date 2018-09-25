@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, View, StyleSheet} from 'react-native';
+import {Platform, View} from 'react-native';
 import {Header, ImageCard, Layout} from "../components/uikit";
 import {BATMAN_DETAILS} from "../routing";
 
@@ -29,21 +29,29 @@ export default class HomeScreen extends Component<Props> {
         }
     };
 
+    onGoBack(dataFromChildren) {
+        console.log('dataFromChildren', dataFromChildren)
+    }
+
     render() {
         const {title, data} = this.state;
         const {navigation} = this.props;
-const {t} = ttt;
         return (
-            <View style={t}>
-                <Header title={title}/>
+            <View>
+                <Header title={title}
+                        leftIcon={'bars'}
+                        leftButtonColor={'#fff'}
+                        onPress={() => {
+                            navigation.openDrawer()
+                        }}/>
                 <Layout>
                     {data.map((item) => {
                         return (
                             <ImageCard
                                 key={item.show.id}
                                 data={item.show}
-                                onPress={()=>{
-                                    navigation.navigate(BATMAN_DETAILS, (item.show));
+                                onPress={() => {
+                                    navigation.navigate(BATMAN_DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
                                     console.log(navigation)
                                 }}
                             />
@@ -54,9 +62,3 @@ const {t} = ttt;
         );
     }
 }
-
-const ttt = StyleSheet.create({
-    t: {
-        backgroundColor: 'red'
-    }
-});
