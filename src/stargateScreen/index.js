@@ -2,7 +2,7 @@ import {createStackNavigator} from 'react-navigation';
 import HomeScreen from "./HomeScreen";
 
 import {STARGATE_DETAILS, STARGATE_HOME} from "../routing";
-import DetailsScreen from "./DetailsScreen";
+import DetailsScreen from "../components/uikit/DetailsScreen";
 
 export default createStackNavigator(
     {

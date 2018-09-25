@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import {Header, ImageBigCard} from "../components/uikit";
-import {defaultFontSize, firstColor, fontFamily, height, textColor} from "../constants";
+import {Header, ImageBigCard} from "./index";
+import {defaultFontSize, firstColor, fontFamily, height, textColor} from "../../constants";
 
 class DetailsScreen extends PureComponent {
     componentWillUnmount() {
@@ -31,7 +31,7 @@ class DetailsScreen extends PureComponent {
                         data={data}
                     />
                     <Text style={nameStyles}>{name}</Text>
-                    <Text style={summaryStyles}>{summary.replace(/<[^>]+>/g, '')}</Text>
+                    <Text style={summaryStyles}>{summary ? summary.replace(/<[^>]+>/g, '') : ''}</Text>
                 </ScrollView>
             </View>
         );
