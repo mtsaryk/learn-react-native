@@ -1,86 +1,41 @@
 import React from 'react';
-//import {createBottomTabNavigator} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation';
-import stargateScreen from './src/stargateScreen';
-import batmanScreen from './src/batmanScreen';
-import spiderScreen from './src/spiderScreen';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-import {defaultFontSize, secondColor, height} from "./src/constants";
+import homeScreen from './src/homeScreen';
+import {defaultFontSize, secondColor} from "./src/constants";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AboutScreen from "./src/aboutScreen/AboutScreen";
 
 
 export default createDrawerNavigator({
-        Stargate: {
-            screen: stargateScreen,
+        Home: {
+            screen: homeScreen,
             navigationOptions: {
-                drawerLabel: 'Stargate',
+                drawerLabel: 'Home',
                 drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="grade" size={defaultFontSize*1.5} style={{color: tintColor}}/>
+                    <MaterialIcons name="home" size={defaultFontSize * 1.5} style={{color: tintColor}}/>
                 )
             }
         },
-        Batman: {
-            screen: batmanScreen,
+        About: {
+            screen: AboutScreen,
             navigationOptions: {
-                drawerLabel: 'Batman',
+                drawerLabel: 'About',
                 drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="favorite" size={defaultFontSize*1.5} style={{color: tintColor}}/>
+                    <MaterialIcons name="info" size={defaultFontSize * 1.5} style={{color: tintColor}}/>
                 )
             }
-        },
-        Spiderman: {
-            screen: spiderScreen,
-            navigationOptions: {
-                drawerLabel: 'Spiderman',
-                drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="pets" size={defaultFontSize*1.5} style={{color: tintColor}}/>
-                )
-            }
-        },
+        }
     },
     {
-        initialRouteName: 'Batman',
+        initialRouteName: 'Home',
         contentOptions: {
             activeTintColor: secondColor,
             itemsContainerStyle: {
                 marginVertical: 60,
             },
             labelStyle: {
-                fontSize: defaultFontSize*1.5
+                fontSize: defaultFontSize * 1.5
             }
         }
     }
 )
-
-/*
-export default createBottomTabNavigator(
-    {
-        Stargate: stargateScreen,
-        Batman: batmanScreen,
-        Spiderman: spiderScreen
-    },
-    {
-        navigationOptions: ({navigation}) => ({
-            tabBarIcon: ({focused, tintColor}) => {
-                const {routeName} = navigation.state;
-                let iconName;
-                if (routeName === 'Stargate') {
-                    iconName = focused ? 'ios-play' : 'ios-videocam';
-                } else if (routeName === 'Batman') {
-                    iconName = focused ? 'ios-play' : 'ios-videocam';
-                } else if (routeName === 'Spiderman') {
-                    iconName = focused ? 'ios-play' : 'ios-videocam';
-                }
-                return <Ionicons name={iconName} size={defaultFontSize*2} color={tintColor}/>
-            }
-        }),
-        tabBarOptions: {
-            activeTintColor: secondColor,
-            inactiveTintColor: 'gray',
-            labelStyle: { fontSize: defaultFontSize*1.6 },
-            style:{
-                height: height*0.05
-            }
-        }
-    }
-)*/

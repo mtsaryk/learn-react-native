@@ -9,7 +9,8 @@ const SearchBar = ({
                        rightIcon,
                        value,
                        placeholder,
-                       onBlur
+                       onBlur,
+                       onSubmitEditing
                    }) => {
     const {header, wrapper, rightButtonStyle, searchInput, searchButton, searchButtonWrapper} = styles;
     return (
@@ -21,6 +22,7 @@ const SearchBar = ({
                     onChangeText={onChangeText}
                     placeholder={placeholder}
                     onBlur={onBlur}
+                    onSubmitEditing={onSubmitEditing}
                 />
                 {
                     rightIcon &&

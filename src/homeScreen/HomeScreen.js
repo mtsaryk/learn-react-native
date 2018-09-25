@@ -9,32 +9,41 @@ const platform = Platform.select({
     android: 'Android',
 });
 
-const url = 'http://api.tvmaze.com/search/shows?q=';
+const searchUrl = 'http://api.tvmaze.com/search/shows?q=';
+const startUrl = 'http://api.tvmaze.com/schedule';
 type Props = {};
 export default class HomeScreen extends Component<Props> {
     state = {
-        title: 'Batman',
+        title: 'Home',
         data: [],
         visibleSearchBar: false,
-        searchValue: 'Batman'
+        searchValue: ''
     };
 
-    getData = async (searchValue) => {
+    getData = async (url, searchValue) => {
         try {
-            const res = await fetch(url + searchValue);
+            const res = await fetch(url + (searchValue ? searchValue : ''));
             const data = await res.json();
-            this.setState({data, title: searchValue});
+            this.setState({data, title: searchValue ? searchValue : this.state.title});
         }
         catch (e) {
             throw e;
         }
     };
 
-    componentDidMount = this.getData(this.state.searchValue);
+    componentDidMount = this.getData(startUrl);
 
     onGoBack(dataFromChildren) {
         console.log('dataFromChildren', dataFromChildren)
     }
+
+    handleSubmit = ()=>{
+        const visibleSearchBar = !this.state.visibleSearchBar;
+        this.setState({visibleSearchBar});
+        if (this.state.searchValue) {
+            this.getData(searchUrl, this.state.searchValue);
+        }
+    };
 
     render() {
         const {title, data, visibleSearchBar, searchValue} = this.state;
@@ -46,18 +55,15 @@ export default class HomeScreen extends Component<Props> {
                         rightIcon='magnify'
                         value={searchValue}
                         placeholder='search...'
-                        onPress={() => {
-                            this.setState({visibleSearchBar: !visibleSearchBar});
-                            if (this.state.searchValue) {
-                                this.getData(this.state.searchValue);
-                            }
-                        }}
+                        autoFocus={true}
+                        onPress={this.handleSubmit}
                         onChangeText={(text) => {
                             this.setState({searchValue: text});
                         }}
                         onBlur={() => {
                             this.setState({visibleSearchBar: false});
                         }}
+                        onSubmitEditing={this.handleSubmit}
                     /> :
                     <Header
                         title={title}
@@ -72,7 +78,8 @@ export default class HomeScreen extends Component<Props> {
                     />}
 
                 <Layout>
-                    {data && data.map((item) => {
+                    {
+                        data.map((item) => {
                         return (
                             <ImageCard
                                 key={item.show.id}

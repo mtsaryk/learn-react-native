@@ -18,9 +18,11 @@ const Header = ({
                 <Icon name={leftIcon} style={[leftButtonStyle, {color: lightColor}]}/>
             </TouchableOpacity>
             <Text numberOfLines={1} ellipsizeMode={"tail"} style={headerText}>{title}</Text>
-            <TouchableOpacity onPress={onPressSearch} style={searchButton}>
-                <MaterialCommunityIcons name={rightIcon} style={[rightButtonStyle, {color: lightColor}]}/>
-            </TouchableOpacity>
+            {
+                rightIcon ? <TouchableOpacity onPress={onPressSearch} style={searchButton}>
+                    <MaterialCommunityIcons name={rightIcon} style={[rightButtonStyle, {color: lightColor}]}/>
+                </TouchableOpacity> : <Text/>
+            }
         </View>
     )
 };
