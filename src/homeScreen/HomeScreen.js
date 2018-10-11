@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Platform, View} from 'react-native';
 import {Header, ImageCard, Layout, SearchBar} from "../components/uikit";
 import {DETAILS} from "../routing";
-
+import {connect } from 'react-redux';
+import {getMovies, searchChanged} from "../actions";
 
 const platform = Platform.select({
     ios: 'IOS',
@@ -12,7 +13,7 @@ const platform = Platform.select({
 const searchUrl = 'http://api.tvmaze.com/search/shows?q=';
 const startUrl = 'http://api.tvmaze.com/schedule';
 type Props = {};
-export default class HomeScreen extends Component<Props> {
+class HomeScreen extends Component<Props> {
     state = {
         title: 'Home',
         data: [],
@@ -37,28 +38,29 @@ export default class HomeScreen extends Component<Props> {
         console.log('dataFromChildren', dataFromChildren)
     }
 
-    handleSubmit = ()=>{
+    handleSubmit = () => {
         const visibleSearchBar = !this.state.visibleSearchBar;
         this.setState({visibleSearchBar});
-        if (this.state.searchValue) {
-            this.getData(searchUrl, this.state.searchValue);
+        if (this.props.movie) {
+            this.props.getMovies(this.props.movie)
         }
     };
 
     render() {
-        const {title, data, visibleSearchBar, searchValue} = this.state;
-        const {navigation} = this.props;
+        const {title, visibleSearchBar} = this.state;
+        const {navigation, searchChanged, movie, getMovies, data} = this.props;
+        console.log('this.props',this.props);
         return (
             <View>
                 {visibleSearchBar ?
                     <SearchBar
                         rightIcon='magnify'
-                        value={searchValue}
                         placeholder='search...'
+                        value={movie}
                         autoFocus={true}
                         onPress={this.handleSubmit}
                         onChangeText={(text) => {
-                            this.setState({searchValue: text});
+                            searchChanged(text);
                         }}
                         onBlur={() => {
                             this.setState({visibleSearchBar: false});
@@ -67,11 +69,7 @@ export default class HomeScreen extends Component<Props> {
                     /> :
                     <Header
                         title={title}
-                        leftIcon={'bars'}
                         rightIcon={'magnify'}
-                        onPress={() => {
-                            navigation.openDrawer()
-                        }}
                         onPressSearch={() => {
                             this.setState({visibleSearchBar: !visibleSearchBar});
                         }}
@@ -80,18 +78,27 @@ export default class HomeScreen extends Component<Props> {
                 <Layout>
                     {
                         data.map((item) => {
-                        return (
-                            <ImageCard
-                                key={item.show.id}
-                                data={item.show}
-                                onPress={() => {
-                                    navigation.navigate(DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
-                                }}
-                            />
-                        )
-                    })}
+                            return (
+                                <ImageCard
+                                    key={item.show.id}
+                                    data={item.show}
+                                    onPress={() => {
+                                        navigation.navigate(DETAILS, ({show: item.show, onGoBack: this.onGoBack}));
+                                    }}
+                                />
+                            )
+                        })}
                 </Layout>
             </View>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        movie : state.search.movie,
+        data: state.search.data
+    }
+}
+
+export default connect(mapStateToProps, {searchChanged, getMovies})(HomeScreen);
